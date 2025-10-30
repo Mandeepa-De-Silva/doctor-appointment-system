@@ -45,6 +45,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .build();
     }
 
+    @SuppressWarnings("deprecation")
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
