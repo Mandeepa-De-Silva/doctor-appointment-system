@@ -3,6 +3,7 @@ package com.mandeepa.das_backend.config;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +11,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-@OpenAPIDefinition
+@OpenAPIDefinition(
+        security = { @SecurityRequirement(name = "Authorization") }
+)
 @Configuration
 @SecurityScheme(
         name = "Authorization",
@@ -32,10 +35,11 @@ public class OpenApiConfig {
                         .contact(new io.swagger.v3.oas.models.info.Contact()
                                 .name("Mandeepa De Silva")
                                 .email("mandeepadesilva4.14@gmail.com")))
-                .servers(
-                        List.of(new io.swagger.v3.oas.models.servers.Server()
+                .servers(List.of(
+                        new io.swagger.v3.oas.models.servers.Server()
                                 .url("http://localhost:8081/das-backend")
-                                .description("Local server"))
-                );
+                                .description("Local server")
+                ))
+                .addSecurityItem(new io.swagger.v3.oas.models.security.SecurityRequirement().addList("Authorization"));
     }
 }
