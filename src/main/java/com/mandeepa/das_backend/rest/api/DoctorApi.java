@@ -7,8 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Doctors")
+@RestController
 @RequestMapping("/api/doctors")
+@Tag(name = "Doctors")
 public interface DoctorApi {
 
     @PreAuthorize("hasRole('ADMIN')")

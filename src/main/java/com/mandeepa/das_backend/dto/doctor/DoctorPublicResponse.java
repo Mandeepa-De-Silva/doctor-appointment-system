@@ -2,7 +2,10 @@ package com.mandeepa.das_backend.dto.doctor;
 
 import lombok.*;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor @Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class DoctorPublicResponse {
     private Long id;
     private String fullName;

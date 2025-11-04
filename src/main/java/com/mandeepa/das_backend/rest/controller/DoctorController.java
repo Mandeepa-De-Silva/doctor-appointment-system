@@ -6,9 +6,9 @@ import com.mandeepa.das_backend.service.doctor.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class DoctorController implements DoctorApi {
     private final DoctorService service;

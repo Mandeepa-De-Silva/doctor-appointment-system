@@ -2,7 +2,6 @@ package com.mandeepa.das_backend.dto.doctor;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
-import lombok.Getter; import lombok.Setter;
 
 @Data
 public class DoctorUpdateRequest {
