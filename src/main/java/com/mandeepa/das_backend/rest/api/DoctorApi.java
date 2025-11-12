@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,5 +31,5 @@ public interface DoctorApi {
     @PutMapping("/{id}")
     DoctorPublicResponse update(@PathVariable Long id,
                                 @Valid @RequestBody DoctorUpdateRequest req,
-                                @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.User ud);
+                                @AuthenticationPrincipal User ud);
 }

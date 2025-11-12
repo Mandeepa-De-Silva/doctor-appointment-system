@@ -7,6 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class DoctorPublicResponse {
+
     private Long id;
     private String fullName;
     private String regNo;

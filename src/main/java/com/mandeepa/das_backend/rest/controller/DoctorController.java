@@ -11,21 +11,21 @@ import org.springframework.stereotype.Controller;
 @Controller
 @RequiredArgsConstructor
 public class DoctorController implements DoctorApi {
-    private final DoctorService service;
+    private final DoctorService doctorService;
 
     public DoctorPublicResponse create(DoctorCreateRequest req) {
-        return service.create(req);
+        return doctorService.create(req);
     }
 
     public Page<DoctorPublicResponse> list(String name, Long specId, int page, int size) {
-        return service.list(name, specId, page, size);
+        return doctorService.list(name, specId, page, size);
     }
 
     public DoctorPublicResponse get(Long id) {
-        return service.get(id);
+        return doctorService.get(id);
     }
 
     public DoctorPublicResponse update(Long id, DoctorUpdateRequest req, User ud) {
-        return service.update(id, req, ud.getUsername());
+        return doctorService.update(id, req, ud.getUsername());
     }
 }
