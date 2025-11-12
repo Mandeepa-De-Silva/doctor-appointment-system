@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class AppointmentStatusUpdateRequest {
 
-    @NotBlank
+    @NotBlank(message = "Status cannot be blank")
     private String status; // CONFIRMED, REJECTED, COMPLETED, CANCELLED
 
 }
