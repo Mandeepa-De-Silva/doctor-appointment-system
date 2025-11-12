@@ -1,6 +1,6 @@
 package com.mandeepa.das_backend.service.appointment;
 
-import com.mandeepa.das_backend.dto.Appointment.*;
+import com.mandeepa.das_backend.dto.appointment.*;
 import org.springframework.data.domain.Page;
 
 public interface AppointmentService {

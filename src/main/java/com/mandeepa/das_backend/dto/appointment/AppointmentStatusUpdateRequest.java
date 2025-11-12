@@ -1,4 +1,4 @@
-package com.mandeepa.das_backend.dto.Appointment;
+package com.mandeepa.das_backend.dto.appointment;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

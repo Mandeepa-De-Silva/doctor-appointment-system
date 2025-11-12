@@ -2,7 +2,7 @@ package com.mandeepa.das_backend.service.appointment;
 
 import com.mandeepa.das_backend.constant.AppointmentStatus;
 import com.mandeepa.das_backend.constant.UserType;
-import com.mandeepa.das_backend.dto.Appointment.*;
+import com.mandeepa.das_backend.dto.appointment.*;
 import com.mandeepa.das_backend.entity.*;
 import com.mandeepa.das_backend.exception.DuplicateFoundException;
 import com.mandeepa.das_backend.exception.ResourceNotFoundException;

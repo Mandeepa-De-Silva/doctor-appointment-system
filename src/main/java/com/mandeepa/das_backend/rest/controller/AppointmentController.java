@@ -1,6 +1,6 @@
 package com.mandeepa.das_backend.rest.controller;
 
-import com.mandeepa.das_backend.dto.Appointment.*;
+import com.mandeepa.das_backend.dto.appointment.*;
 import com.mandeepa.das_backend.rest.api.AppointmentApi;
 import com.mandeepa.das_backend.service.appointment.AppointmentService;
 import lombok.RequiredArgsConstructor;
