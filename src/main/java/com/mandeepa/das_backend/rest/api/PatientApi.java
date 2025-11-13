@@ -14,10 +14,10 @@ public interface PatientApi {
 
     @PreAuthorize("hasRole('PATIENT')")
     @GetMapping("/me")
-    PatientMeResponse me(@AuthenticationPrincipal User ud);
+    PatientMeResponse getPatientDetails(@AuthenticationPrincipal User ud);
 
     @PreAuthorize("hasRole('PATIENT')")
     @PutMapping("/me")
-    PatientMeResponse updateMe(@AuthenticationPrincipal User ud,
-                               @Valid @RequestBody PatientUpdateRequest req);
+    PatientMeResponse updatePatient(@AuthenticationPrincipal User ud,
+                               @Valid @RequestBody PatientUpdateRequest request);
 }

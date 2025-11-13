@@ -4,8 +4,8 @@ import  com.mandeepa.das_backend.dto.patient.*;
 
 public interface PatientService {
 
-    PatientMeResponse me(String username);
+    PatientMeResponse getPatientDetails(String username);
 
-    PatientMeResponse updateMe(String username, PatientUpdateRequest req);
+    PatientMeResponse updatePatient(String username, PatientUpdateRequest request);
 }
 
