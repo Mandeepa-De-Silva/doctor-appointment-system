@@ -20,16 +20,16 @@ public interface SpecializationApi {
     @Operation(summary = "Create a new specialization",security =  @SecurityRequirement(name = "Authorization"))
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    SpecializationResponse create(@Valid @RequestBody SpecializationCreateRequest req);
+    SpecializationResponse createSpecialization(@Valid @RequestBody SpecializationCreateRequest request);
 
     @GetMapping
-    List<SpecializationResponse> list();
+    List<SpecializationResponse> getAllSpecialization();
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    SpecializationResponse update(@PathVariable Long id, @Valid @RequestBody SpecializationUpdateRequest req);
+    SpecializationResponse updateSpecialization(@PathVariable Long id, @Valid @RequestBody SpecializationUpdateRequest req);
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    void delete(@PathVariable Long id);
+    void deleteSpecialization(@PathVariable Long id);
 }

@@ -14,22 +14,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpecializationController implements SpecializationApi {
 
-    private final SpecializationService service;
+    private final SpecializationService specializationService;
 
-    public SpecializationResponse create(SpecializationCreateRequest req) {
-        return service.create(req);
+    public SpecializationResponse createSpecialization(SpecializationCreateRequest request) {
+        return specializationService.createSpecialization(request);
     }
 
-    public List<SpecializationResponse> list() {
-        return service.list();
+    public List<SpecializationResponse> getAllSpecialization() {
+        return specializationService.getAllSpecialization();
     }
 
 
-    public SpecializationResponse update(Long id, SpecializationUpdateRequest req) {
-        return service.update(id, req);
+    public SpecializationResponse updateSpecialization(Long id, SpecializationUpdateRequest request) {
+        return specializationService.updateSpecialization(id, request);
     }
 
-    public void delete(Long id) {
-        service.delete(id);
+    public void deleteSpecialization(Long id) {
+        specializationService.deleteSpecialization(id);
     }
 }

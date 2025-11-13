@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class SpecializationCreateRequest {
 
-    @NotBlank
+    @NotBlank(message = "Specialization name cannot be blank")
     private String name;
 }

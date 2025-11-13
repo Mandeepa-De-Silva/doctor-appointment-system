@@ -18,47 +18,48 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpecializationServiceImpl implements SpecializationService {
 
-    private final SpecializationRepository repo;
-    private final DoctorRepository doctorRepo;
+    private final SpecializationRepository specializationRepository;
+    private final DoctorRepository doctorRepository;
 
 
     @Override
     @Transactional
-    public SpecializationResponse create(SpecializationCreateRequest req) {
-        if (repo.existsByNameIgnoreCase(req.getName())) {
+    public SpecializationResponse createSpecialization(SpecializationCreateRequest request) {
+        if (specializationRepository.existsByNameIgnoreCase(request.getName())) {
             throw new DuplicateFoundException("Specialization exists");
         }
-        var specialization = repo.save(SpecializationEntity.builder().name(req.getName().trim()).build());
+        var specialization = specializationRepository.save(SpecializationEntity.builder().name(request.getName().trim()).build());
         return new SpecializationResponse(specialization.getId(), specialization.getName());
     }
 
     @Override
-    public List<SpecializationResponse> list() {
-        return repo.findAll().stream()
-                .map(s -> new SpecializationResponse(s.getId(), s.getName()))
+    public List<SpecializationResponse> getAllSpecialization() {
+        return specializationRepository.findAll().stream()
+                .map(specializationEntity -> new SpecializationResponse(specializationEntity.getId(),
+                        specializationEntity.getName()))
                 .toList();
     }
 
     @Override
     @Transactional
-    public SpecializationResponse update(Long id, SpecializationUpdateRequest req) {
-        var specialization = repo.findById(id)
+    public SpecializationResponse updateSpecialization(Long id, SpecializationUpdateRequest request) {
+        var specialization = specializationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Specialization not found"));
 
-        specialization.setName(req.getName().trim());
+        specialization.setName(request.getName().trim());
         return new SpecializationResponse(specialization.getId(), specialization.getName());
     }
 
     @Override
     @Transactional
-    public void delete(Long id) {
-        var count = doctorRepo.countBySpecialization_Id(id);
+    public void deleteSpecialization(Long id) {
+        var count = doctorRepository.countBySpecialization_Id(id);
         if (count > 0) {
             throw new DuplicateFoundException("Cannot delete specialization in use");
         }
-        if (!repo.existsById(id)) {
+        if (!specializationRepository.existsById(id)) {
             throw new ResourceNotFoundException("Specialization not found");
         }
-        repo.deleteById(id);
+        specializationRepository.deleteById(id);
     }
 }
