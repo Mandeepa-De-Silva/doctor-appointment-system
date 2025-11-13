@@ -14,13 +14,12 @@ public interface PrescriptionApi {
 
     @PreAuthorize("hasRole('DOCTOR')")
     @PostMapping
-    PrescriptionResponse create(@PathVariable Long appointmentId,
-                                @PathVariable Long doctorId,
+    PrescriptionResponse createPrescription(@PathVariable Long appointmentId,
                                 @AuthenticationPrincipal User ud,
                                 @Valid @RequestBody PrescriptionCreateRequest req);
 
     @PreAuthorize("hasAnyRole('DOCTOR','PATIENT','ADMIN')")
     @GetMapping
-    PrescriptionResponse get(@PathVariable Long appointmentId,
+    PrescriptionResponse getPrescription(@PathVariable Long appointmentId,
                              @AuthenticationPrincipal User ud);
 }

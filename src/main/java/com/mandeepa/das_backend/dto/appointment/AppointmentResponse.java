@@ -1,4 +1,4 @@
-package com.mandeepa.das_backend.dto.Appointment;
+package com.mandeepa.das_backend.dto.appointment;
 
 import com.mandeepa.das_backend.constant.AppointmentStatus;
 import lombok.*;

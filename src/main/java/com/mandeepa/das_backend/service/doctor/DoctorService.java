@@ -2,13 +2,15 @@ package com.mandeepa.das_backend.service.doctor;
 
 import com.mandeepa.das_backend.dto.doctor.*;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface DoctorService {
-    DoctorPublicResponse create(DoctorCreateRequest req);
 
-    Page<DoctorPublicResponse> list(String name, Long specId, int page, int size);
+    DoctorPublicResponse createDoctor(DoctorCreateRequest request);
 
-    DoctorPublicResponse get(Long id);
+    Page<DoctorPublicResponse> getDoctorList(String name, Long specId, Pageable pageable);
 
-    DoctorPublicResponse update(Long id, DoctorUpdateRequest req, String actorUsername);
+    DoctorPublicResponse getDoctorById(Long id);
+
+    DoctorPublicResponse updateDoctor(Long id, DoctorUpdateRequest request, String actorUsername);
 }

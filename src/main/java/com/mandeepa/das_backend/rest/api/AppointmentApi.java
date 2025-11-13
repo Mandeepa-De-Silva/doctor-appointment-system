@@ -1,6 +1,6 @@
 package com.mandeepa.das_backend.rest.api;
 
-import com.mandeepa.das_backend.dto.Appointment.*;
+import com.mandeepa.das_backend.dto.appointment.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;

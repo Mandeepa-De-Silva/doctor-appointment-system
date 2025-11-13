@@ -7,6 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class SpecializationResponse {
+
     private Long id;
     private String name;
 }
