@@ -23,33 +23,33 @@ public class DoctorServiceImpl implements DoctorService {
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     @Override @Transactional
-    public DoctorPublicResponse create(DoctorCreateRequest req) {
-        if (userRepository.findByUsername(req.getEmail()).isPresent()) {
+    public DoctorPublicResponse createDoctor(DoctorCreateRequest request) {
+        if (userRepository.findByUsername(request.getEmail()).isPresent()) {
             throw new DuplicateFoundException("Email already used");
         }
 
-        if (doctorRepository.existsByRegNo(req.getRegNo())) {
+        if (doctorRepository.existsByRegNo(request.getRegNo())) {
             throw new DuplicateFoundException("regNo already used");
         }
 
-        var spec = specializationRepository.findById(req.getSpecializationId())
+        var spec = specializationRepository.findById(request.getSpecializationId())
                 .orElseThrow(() -> new ResourceNotFoundException("Specialization not found"));
 
         var user = UserEntity.builder()
-                .firstName(req.getFirstName())
-                .lastName(req.getLastName())
-                .username(req.getEmail())
-                .password(encoder.encode(req.getPassword()))
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .username(request.getEmail())
+                .password(encoder.encode(request.getPassword()))
                 .userType(UserType.DOCTOR)
                 .build();
         userRepository.save(user);
 
         var doctor = DoctorEntity.builder()
                 .user(user)
-                .regNo(req.getRegNo())
+                .regNo(request.getRegNo())
                 .specialization(spec)
-                .yearsOfExp(req.getYearsOfExp())
-                .bio(req.getBio())
+                .yearsOfExp(request.getYearsOfExp())
+                .bio(request.getBio())
                 .build();
         doctorRepository.save(doctor);
         return toPublic(doctor);
@@ -68,22 +68,22 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Page<DoctorPublicResponse> list(String name, Long specId, int page, int size) {
-        Pageable p = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
+    public Page<DoctorPublicResponse> getDoctorList(String name, Long specId, Pageable pageable) {
+//        Pageable p = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
         String q = name == null ? "" : name;
         Page<DoctorEntity> res = (specId == null)
-                ? doctorRepository.findByUser_FirstNameContainingIgnoreCaseOrUser_LastNameContainingIgnoreCase(q, q, p)
-                : doctorRepository.findBySpecialization_IdAndUser_FirstNameContainingIgnoreCaseOrSpecialization_IdAndUser_LastNameContainingIgnoreCase(specId, q, specId, q, p);
+                ? doctorRepository.findByUser_FirstNameContainingIgnoreCaseOrUser_LastNameContainingIgnoreCase(q, q, pageable)
+                : doctorRepository.findBySpecialization_IdAndUser_FirstNameContainingIgnoreCaseOrSpecialization_IdAndUser_LastNameContainingIgnoreCase(specId, q, specId, q, pageable);
         return res.map(this::toPublic);
     }
 
     @Override
-    public DoctorPublicResponse get(Long id) {
+    public DoctorPublicResponse getDoctorById(Long id) {
         return toPublic(doctorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Doctor not found")));
     }
 
     @Override @Transactional
-    public DoctorPublicResponse update(Long id, DoctorUpdateRequest req, String actorUsername) {
+    public DoctorPublicResponse updateDoctor(Long id, DoctorUpdateRequest request, String actorUsername) {
         var doctor = doctorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor not found"));
 
@@ -96,13 +96,13 @@ public class DoctorServiceImpl implements DoctorService {
             throw new UnAuthorizedException("Not allowed");
         }
 
-        var spec = specializationRepository.findById(req.getSpecializationId())
+        var spec = specializationRepository.findById(request.getSpecializationId())
                 .orElseThrow(() -> new ResourceNotFoundException("Specialization not found"));
 
-        doctor.getUser().setFirstName(req.getFirstName());
-        doctor.getUser().setLastName(req.getLastName());
-        doctor.setYearsOfExp(req.getYearsOfExp());
-        doctor.setBio(req.getBio());
+        doctor.getUser().setFirstName(request.getFirstName());
+        doctor.getUser().setLastName(request.getLastName());
+        doctor.setYearsOfExp(request.getYearsOfExp());
+        doctor.setBio(request.getBio());
         doctor.setSpecialization(spec);
         return toPublic(doctor);
     }
