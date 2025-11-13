@@ -10,19 +10,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class PatientServiceImpl implements PatientService {
 
-    private final UserRepository userRepo;
-    private final PatientRepository patientRepo;
+    private final UserRepository userRepository;
+    private final PatientRepository patientRepository;
 
     @Override
-    public PatientMeResponse me(String username) {
-        UserEntity user = userRepo.findByUsername(username)
+    public PatientMeResponse getPatientDetails(String username) {
+        UserEntity user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        PatientEntity patient = patientRepo.findByUser(user)
+        PatientEntity patient = patientRepository.findByUser(user)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient profile not found"));
 
         return PatientMeResponse.builder()
@@ -38,18 +40,21 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     @Transactional
-    public PatientMeResponse updateMe(String username, PatientUpdateRequest req) {
-        UserEntity user = userRepo.findByUsername(username)
+    public PatientMeResponse updatePatient(String username, PatientUpdateRequest request) {
+        UserEntity user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        PatientEntity patient = patientRepo.findByUser(user)
+        PatientEntity patient = patientRepository.findByUser(user)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient profile not found"));
 
-        user.setFirstName(req.getFirstName());
-        user.setLastName(req.getLastName());
-        user.setAddress(req.getAddress());
-        patient.setPhone(req.getPhone());
-        patient.setDob(req.getDob());
-        return me(username);
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setAddress(request.getAddress());
+        user.setDob(request.getDob());
+        user.setPhoneNumber(request.getPhone());
+        user.setUpdatedAt(LocalDateTime.now());
+        patient.setPhone(request.getPhone());
+        patient.setDob(request.getDob());
+        return getPatientDetails(username);
     }
 }

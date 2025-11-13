@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PrescriptionController implements PrescriptionApi {
 
-    private final PrescriptionService service;
+    private final PrescriptionService prescriptionService;
 
-    public PrescriptionResponse create(Long appointmentId, Long doctorId, User ud, PrescriptionCreateRequest req) {
-        return service.create(appointmentId, ud.getUsername(), req);
+    public PrescriptionResponse createPrescription(Long appointmentId, User ud, PrescriptionCreateRequest request) {
+        return prescriptionService.createPrescription(appointmentId, ud.getUsername(), request);
     }
 
-    public PrescriptionResponse get(Long appointmentId, User ud) {
-        return service.get(appointmentId, ud.getUsername());
+    public PrescriptionResponse getPrescription(Long appointmentId, User ud) {
+        return prescriptionService.getPrescription(appointmentId, ud.getUsername());
     }
 }

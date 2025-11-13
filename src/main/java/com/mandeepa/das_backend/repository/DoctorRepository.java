@@ -12,8 +12,10 @@ public interface DoctorRepository extends JpaRepository<DoctorEntity, Long> {
 
     Optional<DoctorEntity> findByUserId(Integer userId);
 
+    // search by first name or last name
     Page<DoctorEntity> findByUser_FirstNameContainingIgnoreCaseOrUser_LastNameContainingIgnoreCase(String f, String l, Pageable p);
 
+    // search by specialization id and first name or last name
     Page<DoctorEntity> findBySpecialization_IdAndUser_FirstNameContainingIgnoreCaseOrSpecialization_IdAndUser_LastNameContainingIgnoreCase(Long id1, String f, Long id2, String l, Pageable p);
 
     long countBySpecialization_Id(Long specializationId);

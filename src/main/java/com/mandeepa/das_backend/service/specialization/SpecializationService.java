@@ -7,11 +7,12 @@ import com.mandeepa.das_backend.dto.specialization.SpecializationUpdateRequest;
 import java.util.List;
 
 public interface SpecializationService {
-    SpecializationResponse create(SpecializationCreateRequest req);
 
-    List<SpecializationResponse> list();
+    SpecializationResponse createSpecialization(SpecializationCreateRequest request);
 
-    SpecializationResponse update(Long id, SpecializationUpdateRequest req);
+    List<SpecializationResponse> getAllSpecialization();
 
-    void delete(Long id);
+    SpecializationResponse updateSpecialization(Long id, SpecializationUpdateRequest request);
+
+    void deleteSpecialization(Long id);
 }

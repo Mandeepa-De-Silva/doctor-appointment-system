@@ -4,7 +4,7 @@ import com.mandeepa.das_backend.dto.prescription.*;
 
 public interface PrescriptionService {
 
-    PrescriptionResponse create(Long appointmentId, String doctorUsername, PrescriptionCreateRequest req);
+    PrescriptionResponse createPrescription(Long appointmentId, String doctorUsername, PrescriptionCreateRequest request);
 
-    PrescriptionResponse get(Long appointmentId, String username);
+    PrescriptionResponse getPrescription(Long appointmentId, String username);
 }

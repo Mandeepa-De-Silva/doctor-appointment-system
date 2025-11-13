@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class PatientController implements PatientApi {
-    private final PatientService service;
+    private final PatientService patientService;
 
-    public PatientMeResponse me(User ud) {
-        return service.me(ud.getUsername());
+    public PatientMeResponse getPatientDetails(User userData) {
+        return patientService.getPatientDetails(userData.getUsername());
     }
 
-    public PatientMeResponse updateMe(User ud, PatientUpdateRequest req) {
-        return service.updateMe(ud.getUsername(), req);
+    public PatientMeResponse updatePatient(User userData, PatientUpdateRequest request) {
+        return patientService.updatePatient(userData.getUsername(), request);
     }
 }

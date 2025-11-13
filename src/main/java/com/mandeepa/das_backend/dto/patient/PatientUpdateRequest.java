@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class PatientUpdateRequest {
 
-    @NotBlank
+    @NotBlank(message = "First name cannot be blank")
     private String firstName;
-    @NotBlank
+    @NotBlank(message = "Last name cannot be blank")
     private String lastName;
     private String phone;
     private String dob;
