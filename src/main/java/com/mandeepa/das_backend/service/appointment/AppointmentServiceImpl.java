@@ -39,7 +39,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     @Transactional
-    public AppointmentResponse create(String patientUsername, AppointmentCreateRequest req) {
+    public AppointmentResponse createAppointment(String patientUsername, AppointmentCreateRequest req) {
         var user = userRepository.findByUsername(patientUsername)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
@@ -78,7 +78,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Page<AppointmentResponse> listMine(String username, int page, int size) {
+    public Page<AppointmentResponse> getAppointmentByRole(String username, int page, int size) {
         var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
@@ -101,7 +101,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     @Transactional
-    public AppointmentResponse cancel(Long id, String username) {
+    public AppointmentResponse cancelAppointment(Long id, String username) {
         var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         var appointment = appointmentRepository.findById(id)
@@ -124,7 +124,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     @Transactional
-    public AppointmentResponse updateStatus(Long id, String doctorUsername, String status) {
+    public AppointmentResponse updateAppointmentStatus(Long id, String doctorUsername, String status) {
         var doctorUser = userRepository.findByUsername(doctorUsername)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         if (doctorUser.getUserType() != UserType.DOCTOR) {
@@ -162,7 +162,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public AppointmentResponse getById(Long id, String username) {
+    public AppointmentResponse getAppointmentById(Long id, String username) {
         var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 

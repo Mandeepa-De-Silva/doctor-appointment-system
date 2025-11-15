@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,16 +21,16 @@ public interface SpecializationApi {
     @Operation(summary = "Create a new specialization",security =  @SecurityRequirement(name = "Authorization"))
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    SpecializationResponse createSpecialization(@Valid @RequestBody SpecializationCreateRequest request);
+    ResponseEntity<SpecializationResponse> createSpecialization(@Valid @RequestBody SpecializationCreateRequest request);
 
     @GetMapping
-    List<SpecializationResponse> getAllSpecialization();
+    ResponseEntity<List<SpecializationResponse>> getAllSpecialization();
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    SpecializationResponse updateSpecialization(@PathVariable Long id, @Valid @RequestBody SpecializationUpdateRequest req);
+    ResponseEntity<SpecializationResponse> updateSpecialization(@PathVariable Long id, @Valid @RequestBody SpecializationUpdateRequest req);
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    void deleteSpecialization(@PathVariable Long id);
+    ResponseEntity<Void> deleteSpecialization(@PathVariable Long id);
 }
