@@ -3,6 +3,7 @@ package com.mandeepa.das_backend.rest.api;
 import com.mandeepa.das_backend.dto.prescription.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -14,12 +15,12 @@ public interface PrescriptionApi {
 
     @PreAuthorize("hasRole('DOCTOR')")
     @PostMapping
-    PrescriptionResponse createPrescription(@PathVariable Long appointmentId,
-                                @AuthenticationPrincipal User ud,
-                                @Valid @RequestBody PrescriptionCreateRequest req);
+    ResponseEntity<PrescriptionResponse> createPrescription(@PathVariable Long appointmentId,
+                                                           @AuthenticationPrincipal User ud,
+                                                           @Valid @RequestBody PrescriptionCreateRequest req);
 
     @PreAuthorize("hasAnyRole('DOCTOR','PATIENT','ADMIN')")
     @GetMapping
-    PrescriptionResponse getPrescription(@PathVariable Long appointmentId,
+    ResponseEntity<PrescriptionResponse> getPrescription(@PathVariable Long appointmentId,
                              @AuthenticationPrincipal User ud);
 }
