@@ -16,28 +16,28 @@ public class AppointmentController implements AppointmentApi {
 
     private final AppointmentService appointmentService;
 
-    public ResponseEntity<AppointmentResponse> create(User ud, AppointmentCreateRequest req) {
-        AppointmentResponse response = appointmentService.create(ud.getUsername(), req);
+    public ResponseEntity<AppointmentResponse> createAppointment(User ud, AppointmentCreateRequest req) {
+        AppointmentResponse response = appointmentService.createAppointment(ud.getUsername(), req);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<Page<AppointmentResponse>> listMine(User ud, int page, int size) {
-        Page<AppointmentResponse> response = appointmentService.listMine(ud.getUsername(), page, size);
+    public ResponseEntity<Page<AppointmentResponse>> getAppointmentByRole(User ud, int page, int size) {
+        Page<AppointmentResponse> response = appointmentService.getAppointmentByRole(ud.getUsername(), page, size);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    public ResponseEntity<AppointmentResponse> cancel(Long id, User ud) {
-        AppointmentResponse response = appointmentService.cancel(id, ud.getUsername());
+    public ResponseEntity<AppointmentResponse> cancelAppointment(Long id, User ud) {
+        AppointmentResponse response = appointmentService.cancelAppointment(id, ud.getUsername());
         return ResponseEntity.ok(response);
     }
 
-    public ResponseEntity<AppointmentResponse> updateStatus(Long id, User ud, AppointmentStatusUpdateRequest req) {
-        AppointmentResponse response = appointmentService.updateStatus(id, ud.getUsername(), req.getStatus());
+    public ResponseEntity<AppointmentResponse> updateAppointmentStatus(Long id, User ud, AppointmentStatusUpdateRequest req) {
+        AppointmentResponse response = appointmentService.updateAppointmentStatus(id, ud.getUsername(), req.getStatus());
         return ResponseEntity.ok(response);
     }
 
-    public ResponseEntity<AppointmentResponse> getById(Long id, User ud) {
-        AppointmentResponse response = appointmentService.getById(id, ud.getUsername());
+    public ResponseEntity<AppointmentResponse> getAppointmentById(Long id, User ud) {
+        AppointmentResponse response = appointmentService.getAppointmentById(id, ud.getUsername());
         return ResponseEntity.ok(response);
     }
 }

@@ -16,28 +16,28 @@ public interface AppointmentApi {
 
     @PreAuthorize("hasRole('PATIENT')")
     @PostMapping
-    ResponseEntity<AppointmentResponse> create(@AuthenticationPrincipal User ud,
+    ResponseEntity<AppointmentResponse> createAppointment(@AuthenticationPrincipal User ud,
                                               @Valid @RequestBody AppointmentCreateRequest req);
 
     @PreAuthorize("hasAnyRole('PATIENT','DOCTOR')")
     @GetMapping("/me")
-    ResponseEntity<Page<AppointmentResponse>> listMine(@AuthenticationPrincipal User ud,
+    ResponseEntity<Page<AppointmentResponse>> getAppointmentByRole(@AuthenticationPrincipal User ud,
                                        @RequestParam(defaultValue = "0") int page,
                                        @RequestParam(defaultValue = "10") int size);
 
     @PreAuthorize("hasAnyRole('PATIENT','DOCTOR')")
     @PutMapping("/{id}/cancel")
-    ResponseEntity<AppointmentResponse> cancel(@PathVariable Long id,
+    ResponseEntity<AppointmentResponse> cancelAppointment(@PathVariable Long id,
                                @AuthenticationPrincipal User ud);
 
     @PreAuthorize("hasRole('DOCTOR')")
     @PutMapping("/{id}/status")
-    ResponseEntity<AppointmentResponse> updateStatus(@PathVariable Long id,
+    ResponseEntity<AppointmentResponse> updateAppointmentStatus(@PathVariable Long id,
                                      @AuthenticationPrincipal User ud,
                                      @Valid @RequestBody AppointmentStatusUpdateRequest req);
 
     @PreAuthorize("hasAnyRole('PATIENT','DOCTOR','ADMIN')")
     @GetMapping("/{id}")
-    ResponseEntity<AppointmentResponse> getById(@PathVariable Long id,
+    ResponseEntity<AppointmentResponse> getAppointmentById(@PathVariable Long id,
                                 @AuthenticationPrincipal User ud);
 }
