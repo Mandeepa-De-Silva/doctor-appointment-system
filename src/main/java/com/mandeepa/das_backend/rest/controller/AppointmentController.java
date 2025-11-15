@@ -5,6 +5,8 @@ import com.mandeepa.das_backend.rest.api.AppointmentApi;
 import com.mandeepa.das_backend.service.appointment.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,23 +16,28 @@ public class AppointmentController implements AppointmentApi {
 
     private final AppointmentService appointmentService;
 
-    public AppointmentResponse create(User ud, AppointmentCreateRequest req) {
-        return appointmentService.create(ud.getUsername(), req);
+    public ResponseEntity<AppointmentResponse> create(User ud, AppointmentCreateRequest req) {
+        AppointmentResponse response = appointmentService.create(ud.getUsername(), req);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    public Page<AppointmentResponse> listMine(User ud, int page, int size) {
-        return appointmentService.listMine(ud.getUsername(), page, size);
+    public ResponseEntity<Page<AppointmentResponse>> listMine(User ud, int page, int size) {
+        Page<AppointmentResponse> response = appointmentService.listMine(ud.getUsername(), page, size);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    public AppointmentResponse cancel(Long id, User ud) {
-        return appointmentService.cancel(id, ud.getUsername());
+    public ResponseEntity<AppointmentResponse> cancel(Long id, User ud) {
+        AppointmentResponse response = appointmentService.cancel(id, ud.getUsername());
+        return ResponseEntity.ok(response);
     }
 
-    public AppointmentResponse updateStatus(Long id, User ud, AppointmentStatusUpdateRequest req) {
-        return appointmentService.updateStatus(id, ud.getUsername(), req.getStatus());
+    public ResponseEntity<AppointmentResponse> updateStatus(Long id, User ud, AppointmentStatusUpdateRequest req) {
+        AppointmentResponse response = appointmentService.updateStatus(id, ud.getUsername(), req.getStatus());
+        return ResponseEntity.ok(response);
     }
 
-    public AppointmentResponse getById(Long id, User ud) {
-        return appointmentService.getById(id, ud.getUsername());
+    public ResponseEntity<AppointmentResponse> getById(Long id, User ud) {
+        AppointmentResponse response = appointmentService.getById(id, ud.getUsername());
+        return ResponseEntity.ok(response);
     }
 }

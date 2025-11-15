@@ -15,11 +15,11 @@ public class AppointmentCreateRequest {
     private Long doctorId;
 
     @NotBlank(message = "Start time cannot be blank")
-    @Future(message = "Start time must be in the future")
+//    @Future(message = "Start time must be in the future")
     private String startTime;
 
     @NotBlank(message = "End time cannot be blank")
-    @Future(message = "End time must be in the future")
+//    @Future(message = "End time must be in the future")
     private String endTime;
     private String notes;
 }
