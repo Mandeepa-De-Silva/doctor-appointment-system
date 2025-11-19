@@ -1,4 +1,4 @@
-package com.mandeepa.das_backend.service;
+package com.mandeepa.das_backend.service.auth;
 
 import com.mandeepa.das_backend.dto.UserDto;
 

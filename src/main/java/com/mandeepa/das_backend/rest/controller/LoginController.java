@@ -6,7 +6,7 @@ import com.mandeepa.das_backend.server.JwtToken.JwtSignINResponse;
 import com.mandeepa.das_backend.server.user.UserResponse;
 import com.mandeepa.das_backend.server.user.UserSignInRequest;
 import com.mandeepa.das_backend.server.user.UserSignupRequest;
-import com.mandeepa.das_backend.service.LoginService;
+import com.mandeepa.das_backend.service.auth.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
