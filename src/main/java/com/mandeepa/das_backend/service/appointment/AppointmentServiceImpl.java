@@ -9,12 +9,14 @@ import com.mandeepa.das_backend.exception.ResourceNotFoundException;
 import com.mandeepa.das_backend.exception.UnAuthorizedException;
 import com.mandeepa.das_backend.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AppointmentServiceImpl implements AppointmentService {
@@ -40,10 +42,19 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     @Transactional
     public AppointmentResponse createAppointment(String patientUsername, AppointmentCreateRequest req) {
+
+        log.info("Creating appointment: user={}, doctorId={}, start={}, end={}",
+                patientUsername, req.getDoctorId(), req.getStartTime(), req.getEndTime());
+
         var user = userRepository.findByUsername(patientUsername)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> {
+                    log.error("User not found: {}", patientUsername);
+                    return new ResourceNotFoundException("User not found");
+                });
 
         if (user.getUserType() != UserType.PATIENT) {
+            log.warn("Unauthorized appointment creation attempt by user={} type={}",
+                    patientUsername, user.getUserType());
             throw new UnAuthorizedException("Only patients can book");
         }
 
@@ -57,14 +68,18 @@ public class AppointmentServiceImpl implements AppointmentService {
         OffsetDateTime end = OffsetDateTime.parse(req.getEndTime());
 
         if (!end.isAfter(start)) {
+            log.warn("Invalid appointment time range: endTime <= startTime");
             throw new DuplicateFoundException("endTime must be after startTime");
         }
 
         if (!start.isAfter(OffsetDateTime.now())) {
+            log.warn("Appointment start time must be in the future: {}", start);
             throw new DuplicateFoundException("startTime must be in the future");
         }
 
         if (appointmentRepository.existsOverlap(doctor.getId(), start, end)) {
+            log.warn("Appointment overlap detected for doctorId={} start={} end={}",
+                    doctor.getId(), start, end);
             throw new DuplicateFoundException("Overlapping appointment");
         }
 
@@ -74,6 +89,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .status(AppointmentStatus.PENDING)
                 .notes(req.getNotes())
                 .build());
+        log.info("Appointment created successfully: appointmentId={}", appointment.getId());
         return toResp(appointment);
     }
 
@@ -163,6 +179,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public AppointmentResponse getAppointmentById(Long id, String username) {
+        log.info("Fetching appointment by ID: appointmentId={}, username={}", id, username);
         var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
@@ -174,8 +191,10 @@ public class AppointmentServiceImpl implements AppointmentService {
                 || user.getUserType() == UserType.ADMIN;
 
         if (!allowed) {
+            log.warn("Unauthorized appointment access attempt by user={} appointmentId={}", username, id);
             throw new UnAuthorizedException("Not allowed");
         }
+        log.info("Appointment fetched successfully: id={}", id);
         return toResp(appointment);
     }
 }
