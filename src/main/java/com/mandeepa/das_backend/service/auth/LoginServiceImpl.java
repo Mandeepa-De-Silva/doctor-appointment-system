@@ -1,4 +1,4 @@
-package com.mandeepa.das_backend.service.impl;
+package com.mandeepa.das_backend.service.auth;
 
 import com.mandeepa.das_backend.constant.UserType;
 import com.mandeepa.das_backend.dto.UserDto;
@@ -6,7 +6,6 @@ import com.mandeepa.das_backend.exception.DuplicateFoundException;
 import com.mandeepa.das_backend.repository.PatientRepository;
 import com.mandeepa.das_backend.repository.UserRepository;
 import com.mandeepa.das_backend.server.JwtService;
-import com.mandeepa.das_backend.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
