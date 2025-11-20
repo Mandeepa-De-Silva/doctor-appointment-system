@@ -1,0 +1,98 @@
+@startuml
+skinparam BackgroundColor Transparent
+skinparam ArrowFontColor DimGray
+skinparam CloudBorderColor DimGray
+skinparam ClassFontSize 12
+skinparam ClassBorderThickness 0.5
+skinparam ClassAttributeIconSize 0
+skinparam Shadowing false
+skinparam RoundCorner 10
+skinparam Padding 5
+skinparam ArrowThickness 0.75
+skinparam ArrowColor DimGray
+
+hide circle
+hide methods
+
+skinparam class {
+  BackgroundColor<<Aggregate Root>> #D5A6BD
+  BackgroundColor<<Enum>> #D9D9D9
+  BackgroundColor<<Value Object>> #B6D7A8
+}
+
+enum AppointmentStatus <<Enum>> {
+  PENDING
+  CONFIRMED
+  REJECTED
+  CANCELLED
+  COMPLETED
+}
+
+enum UserType <<Enum>> {
+  ADMIN
+  DOCTOR
+  PATIENT
+}
+
+class UserEntity <<Aggregate Root>> {
+  id: Integer
+  firstName: String
+  lastName: String
+  username: String
+  password: String
+  phoneNumber: String
+  address: String
+  dob: String
+  createdAt: LocalDateTime
+  updatedAt: LocalDateTime
+  userType: UserType
+}
+
+class PatientEntity <<Aggregate Root>> {
+  id: Long
+  phone: String
+  dob: String
+}
+
+class DoctorEntity <<Aggregate Root>> {
+  id: Long
+  regNo: String
+  yearsOfExp: Integer
+  bio: String
+}
+
+class SpecializationEntity <<Aggregate Root>> {
+  id: Long
+  name: String
+}
+
+class AppointmentEntity <<Aggregate Root>> {
+  id: Long
+  startTime: OffsetDateTime
+  endTime: OffsetDateTime
+  status: AppointmentStatus
+  notes: String
+}
+
+class PrescriptionEntity <<Aggregate Root>> {
+  id: Long
+  diagnosis: String
+  advice: String
+  createdAt: Instant
+}
+
+UserEntity "1" -- "1" PatientEntity : user
+UserEntity "1" -- "1" DoctorEntity : user
+
+DoctorEntity "*" --> "1" SpecializationEntity : specialization
+
+AppointmentEntity "*" --> "1" PatientEntity : patient
+AppointmentEntity "*" --> "1" DoctorEntity : doctor
+
+PrescriptionEntity "1" -- "1" AppointmentEntity : appointment
+
+
+UserEntity ..> UserType
+AppointmentEntity ..> AppointmentStatus
+
+@enduml
