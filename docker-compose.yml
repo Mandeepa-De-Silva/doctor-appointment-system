@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: das-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: das-backend
+      MYSQL_USER: dasuser
+      MYSQL_PASSWORD: daspass
+    ports:
+      - "3307:3306"          # same port mapping with local MySQL for easier access
+    volumes:
+      - db_data:/var/lib/mysql
+
+  app:
+    build: .
+    container_name: das-backend
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/das-backend?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: dasuser
+      SPRING_DATASOURCE_PASSWORD: daspass
+      SERVER_PORT: 8081
+      SERVER_SERVLET_CONTEXT_PATH: /das-backend
+    ports:
+      - "8081:8081"
+
+volumes:
+  db_data:
