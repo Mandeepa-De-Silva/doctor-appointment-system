@@ -155,9 +155,9 @@ http://localhost:8081/das-backend
 **Request Body:**
 ```json
 {
-  "firstName": "John",
-  "lastName": "Doe",
-  "username": "john.doe@example.com",
+  "firstName": "Mandeepa",
+  "lastName": "De Silva",
+  "username": "mandeepa@example.com",
   "password": "SecurePass@123",
   "userType": "PATIENT"
 }
@@ -167,9 +167,9 @@ http://localhost:8081/das-backend
 ```json
 {
   "id": 1,
-  "firstName": "John",
-  "lastName": "Doe",
-  "username": "john.doe@example.com",
+  "firstName": "Mandeepa",
+  "lastName": "De Silva",
+  "username": "mandeepa@example.com",
   "password": "$2a$10$...",
   "phoneNumber": null,
   "address": null,
@@ -192,7 +192,7 @@ http://localhost:8081/das-backend
 **Request Body:**
 ```json
 {
-  "username": "john.doe@example.com",
+  "username": "mandeepa@example.com",
   "password": "SecurePass@123"
 }
 ```
@@ -241,7 +241,7 @@ Create these demo users for testing different roles:
 ### Doctor User
 ```json
 {
-  "firstName": "Dr. Sarah",
+  "firstName": "Dr. Jayamini",
   "lastName": "Smith",
   "username": "doctor@example.com",
   "password": "Doctor@123",
@@ -252,10 +252,10 @@ Create these demo users for testing different roles:
 ### Patient User
 ```json
 {
-  "firstName": "Jane",
-  "lastName": "Patient",
-  "username": "patient@example.com",
-  "password": "Patient@123",
+  "firstName": "Sahan",
+  "lastName": "perera",
+  "username": "sahan@example.com",
+  "password": "sa@123",
   "userType": "PATIENT"
 }
 ```
@@ -269,9 +269,9 @@ Create these demo users for testing different roles:
 curl -X POST "http://localhost:8081/das-backend/v1/auth/signUp" \
   -H "Content-Type: application/json" \
   -d '{
-    "firstName": "John",
-    "lastName": "Doe",
-    "username": "john.doe@example.com",
+    "firstName": "Mandeepa",
+    "lastName": "De Silva",
+    "username": "mandeepa@example.com",
     "password": "SecurePass@123",
     "userType": "PATIENT"
   }'
@@ -280,7 +280,7 @@ curl -X POST "http://localhost:8081/das-backend/v1/auth/signUp" \
 curl -X POST "http://localhost:8081/das-backend/v1/auth/signIn" \
   -H "Content-Type: application/json" \
   -d '{
-    "username": "john.doe@example.com",
+    "username": "mandeepa@example.com",
     "password": "SecurePass@123"
   }'
 
@@ -361,23 +361,109 @@ Solution: Use a different username/email address
 
 ### Project Structure
 ```
-src/main/java/com/mandeepa/das_backend/
-├── config/              # Security, Swagger, CORS configuration
-├── controller/          # REST API controllers
-├── dto/                # Data Transfer Objects
-│   ├── request/        # Request DTOs
-│   └── response/       # Response DTOs
-├── entity/             # JPA entities
-├── repository/         # Spring Data repositories
-├── service/            # Business logic layer
-│   └── impl/          # Service implementations
-├── security/           # JWT utilities and filters
-│   ├── JwtAuthenticationFilter.java
-│   ├── JwtTokenProvider.java
-│   └── UserDetailsServiceImpl.java
-└── exception/          # Custom exceptions and handlers
-    ├── GlobalExceptionHandler.java
-    └── ResourceNotFoundException.java
+src/main/java/com/mandeepa/das_backend
+├── advice/                 # Global exception handling
+│   └── GlobalExceptionHandler.java
+├── aop/                    # AOP & cross-cutting concerns
+│   └── LoggingAspect.java
+├── config/                 # Core configuration
+│   ├── SecurityConfig.java         # Spring Security + JWT filter chain
+│   ├── JwtFilter.java              # OncePerRequestFilter reading Bearer token
+│   ├── OpenApiConfig.java          # Swagger / OpenAPI configuration
+│   ├── BeanConfig.java             # Shared beans (ModelMapper, etc.)
+│   └── AuthDebugFilter.java        # Optional debug filter for auth context
+├── constant/               # Shared enums & constants
+│   ├── AppointmentStatus.java
+│   └── UserType.java
+├── docs/                   # Design / documentation artifacts
+│   └── domain-model-uml.puml      # ERD / domain model (PlantUML)
+├── dto/                    # Data Transfer Objects (no entities exposed)
+│   ├── appointment/
+│   │   ├── AppointmentCreateRequest.java
+│   │   ├── AppointmentResponse.java
+│   │   └── AppointmentStatusUpdateRequest.java
+│   ├── doctor/
+│   │   ├── DoctorCreateRequest.java
+│   │   ├── DoctorPublicResponse.java
+│   │   └── DoctorUpdateRequest.java
+│   ├── patient/
+│   │   ├── PatientMeResponse.java
+│   │   └── PatientUpdateRequest.java
+│   ├── prescription/
+│   │   ├── PrescriptionCreateRequest.java
+│   │   └── PrescriptionResponse.java
+│   ├── specialization/
+│   │   ├── SpecializationCreateRequest.java
+│   │   ├── SpecializationUpdateRequest.java
+│   │   └── SpecializationResponse.java
+│   └── UserDto.java
+├── entity/                 # JPA entities and relationships
+│   ├── UserEntity.java
+│   ├── PatientEntity.java
+│   ├── DoctorEntity.java
+│   ├── SpecializationEntity.java
+│   ├── AppointmentEntity.java
+│   └── PrescriptionEntity.java
+├── exception/              # Custom exceptions & error models
+│   ├── DuplicateFoundException.java
+│   ├── ResourceNotFoundException.java
+│   ├── UnAuthorizedException.java
+│   └── ErrorResponse.java
+├── repository/             # Spring Data JPA repositories
+│   ├── UserRepository.java
+│   ├── PatientRepository.java
+│   ├── DoctorRepository.java
+│   ├── SpecializationRepository.java
+│   ├── AppointmentRepository.java
+│   └── PrescriptionRepository.java
+├── rest/                   # HTTP API layer
+│   ├── api/                # Interface contracts
+│   │   ├── LoginApi.java
+│   │   ├── DoctorApi.java
+│   │   ├── PatientApi.java
+│   │   ├── AppointmentApi.java
+│   │   ├── PrescriptionApi.java
+│   │   └── SpecializationApi.java
+│   └── controller/         # REST controllers implementing APIs
+│       ├── LoginController.java
+│       ├── DoctorController.java
+│       ├── PatientController.java
+│       ├── AppointmentController.java
+│       ├── PrescriptionController.java
+│       └── SpecializationController.java
+├── server/                 # Security, auth, and supporting services
+│   ├── JwtToken/
+│   │   └── JwtSignINResponse.java
+│   ├── user/
+│   │   ├── UserSignupRequest.java
+│   │   ├── UserSignInRequest.java
+│   │   └── UserResponse.java
+│   ├── JwtService.java
+│   ├── MyUserDetailsService.java
+│   └── UserPrincipal.java
+├── service/            # Domain services (interfaces + impl)
+│   ├── auth/
+│   │   ├── LoginService.java
+│   │   └── LoginServiceImpl.java
+│   ├── doctor/
+│   │   ├── DoctorService.java
+│   │   └── DoctorServiceImpl.java
+│   ├── patient/
+│   │   ├── PatientService.java
+│   │   └── PatientServiceImpl.java
+│   ├── appointment/
+│   │   ├── AppointmentService.java
+│   │   └── AppointmentServiceImpl.java
+│   ├── prescription/
+│   │   ├── PrescriptionService.java
+│   │   └── PrescriptionServiceImpl.java
+│   └── specialization/
+│       ├── SpecializationService.java
+│       └── SpecializationServiceImpl.java
+└── DasBackendApplication.java      # Spring Boot entry point
+
+src/main/resources
+├── application.properties          # DB, JWT, Swagger, profiles, etc.
 ```
 
 ### Adding New Features
