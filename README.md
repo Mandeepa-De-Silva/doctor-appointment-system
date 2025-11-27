@@ -89,6 +89,58 @@ The application will start on `http://localhost:8081/das-backend`
 ### 5. Access Swagger UI
 Navigate to: `http://localhost:8081/das-backend/swagger-ui`
 
+## 🐳 Run with Docker Compose
+
+The project also supports running the **app + MySQL** using Docker Compose for an easy one-command startup.
+
+### Prerequisites
+
+- Docker & Docker Compose installed
+- Build the jar with Maven:
+````
+mvn clean package -DskipTests
+````
+
+### Start containers
+
+From the project root (where `docker-compose.yml` and `Dockerfile` are located):
+````
+docker compose up --build
+````
+
+This starts:
+
+- `das-mysql` – MySQL 8 database container
+- `das-backend` – Spring Boot application container
+
+Once started, access:
+
+- Swagger UI: `http://localhost:8081/das-backend/swagger-ui`
+- Base URL: `http://localhost:8081/das-backend`
+
+To stop and remove containers:
+````
+docker compose down
+````
+### Important Note
+> When running with Docker Compose, the application uses the **MySQL container** (service `db`), **not** your local XAMPP/MySQL on port 3307. Use either local mode (IntelliJ + XAMPP) or Docker mode, not both at the same time.
+
+### Inspect DB inside Docker
+
+All users, doctors, patients, appointments, etc. created while running via Docker are stored in the MySQL container.
+
+To inspect data:
+````
+docker exec -it das-mysql mysql -udasuser -pdaspass das-backend
+````
+
+Then inside the MySQL prompt:
+````
+SHOW TABLES;
+SELECT * FROM user; -- or user_entity, depending on table name
+EXIT;
+````
+
 ## 📚 API Documentation
 
 ### Base URL
@@ -356,58 +408,6 @@ Solution: Sign in again to get a new token. Tokens typically expire after a set 
 Error: 409 Conflict
 Solution: Use a different username/email address
 ```
-
-## 🐳 Run with Docker Compose
-
-The project also supports running the **app + MySQL** using Docker Compose for an easy one-command startup.
-
-### Prerequisites
-
-- Docker & Docker Compose installed
-- Build the jar with Maven:
-````
-mvn clean package -DskipTests
-````
-
-### Start containers
-
-From the project root (where `docker-compose.yml` and `Dockerfile` are located):
-````
-docker compose up --build
-````
-
-This starts:
-
-- `das-mysql` – MySQL 8 database container
-- `das-backend` – Spring Boot application container
-
-Once started, access:
-
-- Swagger UI: `http://localhost:8081/das-backend/swagger-ui`
-- Base URL: `http://localhost:8081/das-backend`
-
-To stop and remove containers:
-````
-docker compose down
-````
-### Important Note
-> When running with Docker Compose, the application uses the **MySQL container** (service `db`), **not** your local XAMPP/MySQL on port 3307. Use either local mode (IntelliJ + XAMPP) or Docker mode, not both at the same time.
-
-### Inspect DB inside Docker
-
-All users, doctors, patients, appointments, etc. created while running via Docker are stored in the MySQL container.
-
-To inspect data:
-````
-docker exec -it das-mysql mysql -udasuser -pdaspass das-backend
-````
-
-Then inside the MySQL prompt:
-````
-SHOW TABLES;
-SELECT * FROM user; -- or user_entity, depending on table name
-EXIT;
-````
 
 ## 📝 Development Guidelines
 
