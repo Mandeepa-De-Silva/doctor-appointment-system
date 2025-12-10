@@ -1,9 +1,11 @@
 package com.mandeepa.das_backend.server;
 
+import com.mandeepa.das_backend.dto.UserDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -19,27 +21,24 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private String secretKey = "";
+    @Value("${token.signing.key}")
+    private String secretKey;
 
-    public JwtService(){
-        try{
-            KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
-            SecretKey sk = keyGen.generateKey();
-            secretKey = Base64.getEncoder().encodeToString(sk.getEncoded());
-        }catch (NoSuchAlgorithmException e){
-            throw new RuntimeException("Error while generating secret key");
-        }
+    public String generateTokenWithRoles(UserDto userDto, UserDetails userDetails){
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("firstName", userDto.getFirstName());
+        claims.put("lastName", userDto.getLastName());
+        claims.put("role", userDto.getUserType().toString());
+        return generateToken(claims, userDetails);
     }
 
-    public String generateToken(String username){
-
-        Map<String, Object> claims = new HashMap<>();
-        return Jwts.builder()
+    public String generateToken(Map<String, Object> claims, UserDetails userDetails){
+        return  Jwts.builder()
                 .claims()
                 .add(claims)
-                .subject(username)
+                .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000)) // 30-minute expiration
+                .expiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
                 .and()
                 .signWith(getKey())
                 .compact();
