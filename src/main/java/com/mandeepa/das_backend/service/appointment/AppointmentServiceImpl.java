@@ -64,8 +64,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         var doctor = doctorRepository.findById(req.getDoctorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor not found"));
 
-        OffsetDateTime start = OffsetDateTime.parse(req.getStartTime());
-        OffsetDateTime end = OffsetDateTime.parse(req.getEndTime());
+        OffsetDateTime start = req.getStartTime();
+        OffsetDateTime end = req.getEndTime();
 
         if (!end.isAfter(start)) {
             log.warn("Invalid appointment time range: endTime <= startTime");

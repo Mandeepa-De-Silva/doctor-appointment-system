@@ -3,6 +3,7 @@ package com.mandeepa.das_backend.service.prescription;
 import com.mandeepa.das_backend.constant.AppointmentStatus;
 import com.mandeepa.das_backend.dto.prescription.*;
 import com.mandeepa.das_backend.entity.PrescriptionEntity;
+import com.mandeepa.das_backend.exception.CompletedStatusNotFoundException;
 import com.mandeepa.das_backend.exception.DuplicateFoundException;
 import com.mandeepa.das_backend.exception.ResourceNotFoundException;
 import com.mandeepa.das_backend.exception.UnAuthorizedException;
@@ -52,7 +53,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
         if (appointment.getStatus() != AppointmentStatus.COMPLETED) {
             log.warn("Prescription creation attempted before appointment COMPLETED: {}", appointmentId);
-            throw new DuplicateFoundException("Prescription allowed only after COMPLETED");
+            throw new CompletedStatusNotFoundException("Prescription allowed only after COMPLETED");
         }
 
         if (prescriptionRepository.existsByAppointment_Id(appointmentId)) {
