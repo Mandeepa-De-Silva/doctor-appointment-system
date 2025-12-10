@@ -161,10 +161,10 @@ http://localhost:8081/das-backend
 
 | Method | Endpoint | Description | Access |
 |--------|----------|-------------|--------|
-| POST | `/api/doctors` | Create new doctor | ADMIN |
-| GET | `/api/doctors` | List all doctors (with filters) | All |
-| GET | `/api/doctors/{id}` | Get doctor by ID | All |
-| PUT | `/api/doctors/{id}` | Update doctor details | ADMIN/DOCTOR |
+| POST | `/v1/doctors/createDoctor` | Create new doctor | ADMIN |
+| GET | `/v1/doctors/getAllDoctors` | List all doctors (with filters) | All |
+| GET | `/v1/doctors/getDoctorById/{id}` | Get doctor by ID | All |
+| PUT | `/v1/doctors/updateDoctorDetails/{id}` | Update doctor details | ADMIN/DOCTOR |
 
 **Query Parameters for GET /api/doctors:**
 - `name` - Filter by doctor name (optional)
@@ -176,27 +176,27 @@ http://localhost:8081/das-backend
 
 | Method | Endpoint | Description | Access |
 |--------|----------|-------------|--------|
-| POST | `/api/specializations` | Create specialization | ADMIN |
-| GET | `/api/specializations` | List all specializations | All |
-| PUT | `/api/specializations/{id}` | Update specialization | ADMIN |
-| DELETE | `/api/specializations/{id}` | Delete specialization | ADMIN |
+| POST | `/v1/specializations/createSpecialization` | Create specialization | ADMIN |
+| GET | `/v1/specializations/getAllSpecialization` | List all specializations | All |
+| PUT | `/v1/specializations/updateSpecialization/{id}` | Update specialization | ADMIN |
+| DELETE | `/v1/specializations/deleteSpecialization/{id}` | Delete specialization | ADMIN |
 
 #### 👤 Patients (`/api/patients`)
 
 | Method | Endpoint | Description | Access |
 |--------|----------|-------------|--------|
-| GET | `/api/patients/me` | Get current patient profile | PATIENT |
-| PUT | `/api/patients/me` | Update patient profile | PATIENT |
+| GET | `/api/patients/updatePatientDetails/me` | Get current patient profile | PATIENT |
+| PUT | `/api/patients/getPatientDetails/me` | Update patient profile | PATIENT |
 
 #### 📅 Appointments (`/api/appointments`)
 
 | Method | Endpoint | Description | Access |
 |--------|----------|-------------|--------|
-| POST | `/api/appointments` | Book new appointment | PATIENT |
-| GET | `/api/appointments/my` | Get user's appointments | PATIENT/DOCTOR |
-| GET | `/api/appointments/{id}` | Get appointment details | PATIENT/DOCTOR |
-| PUT | `/api/appointments/{id}/status` | Update appointment status | DOCTOR/ADMIN |
-| DELETE | `/api/appointments/{id}` | Cancel appointment | PATIENT |
+| POST | `/v1/appointments/createAnAppointment` | Book new appointment | PATIENT |
+| GET | `/v1/appointments/getAppointment/me` | Get user's appointments | PATIENT/DOCTOR |
+| GET | `/v1/appointments/getAppointmentById/{id}` | Get appointment details | PATIENT/DOCTOR |
+| PUT | `/v1/appointments/{id}/status` | Update appointment status | DOCTOR/ADMIN |
+| PUT | `/v1/appointments/{id}/cancel` | Cancel appointment | PATIENT |
 
 ## 🔑 Authentication Flow
 
