@@ -1,9 +1,6 @@
 package com.mandeepa.das_backend.advice;
 
-import com.mandeepa.das_backend.exception.DuplicateFoundException;
-import com.mandeepa.das_backend.exception.ErrorResponse;
-import com.mandeepa.das_backend.exception.ResourceNotFoundException;
-import com.mandeepa.das_backend.exception.UnAuthorizedException;
+import com.mandeepa.das_backend.exception.*;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -62,5 +59,17 @@ public class GlobalExceptionHandler {
                 errors.put(error.getField(), error.getDefaultMessage())
         );
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CompletedStatusNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCompletedStatusNotFound(
+            CompletedStatusNotFoundException ex,
+            HttpServletRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.CONFLICT,
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 }
