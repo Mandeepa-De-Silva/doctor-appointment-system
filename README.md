@@ -20,6 +20,7 @@ A comprehensive RESTful backend for managing clinic appointments with JWT authen
 - Spring Security with JWT
 - Spring Data JPA
 - MySQL Database
+- Liquibase
 - Springdoc OpenAPI (Swagger)
 - Maven
 
