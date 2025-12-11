@@ -6,15 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "doctor", uniqueConstraints = @UniqueConstraint(columnNames = "reg_no"))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity(name = "doctor")
 public class DoctorEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne(optional = false)
