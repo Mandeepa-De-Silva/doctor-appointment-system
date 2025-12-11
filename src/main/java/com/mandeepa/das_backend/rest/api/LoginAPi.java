@@ -4,6 +4,7 @@ import com.mandeepa.das_backend.server.JwtToken.JwtSignINResponse;
 import com.mandeepa.das_backend.server.user.UserResponse;
 import com.mandeepa.das_backend.server.user.UserSignInRequest;
 import com.mandeepa.das_backend.server.user.UserSignupRequest;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -19,10 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 public interface LoginAPi {
 
     @SecurityRequirements
+    @Operation(summary = "Sign up a new user")
     @PostMapping("/signUp")
     ResponseEntity<UserResponse> signUp(@Valid @RequestBody UserSignupRequest request);
 
     @SecurityRequirements
+    @Operation(summary = "Sign in a user")
     @PostMapping("/signIn")
     ResponseEntity<JwtSignINResponse> signIn(@Valid @RequestBody UserSignInRequest request);
 }

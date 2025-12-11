@@ -6,15 +6,15 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 
-@Entity
-@Table(name="prescription", uniqueConstraints = @UniqueConstraint(columnNames = "appointment_id"))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity(name = "prescription")
 public class PrescriptionEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne(optional = false)

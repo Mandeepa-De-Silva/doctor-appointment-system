@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 public class JwtSignINResponse {
     private String jwtToken;
 
-    public static JwtSignINResponse fromToken(String token) {
+    public static JwtSignINResponse fromToken(JwtSignInDto token) {
         return JwtSignINResponse.builder()
-                .jwtToken(token)
+                .jwtToken(token.getToken())
                 .build();
     }
 }

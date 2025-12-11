@@ -14,7 +14,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -64,15 +64,15 @@ public class AppointmentServiceImpl implements AppointmentService {
         var doctor = doctorRepository.findById(req.getDoctorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor not found"));
 
-        OffsetDateTime start = OffsetDateTime.parse(req.getStartTime());
-        OffsetDateTime end = OffsetDateTime.parse(req.getEndTime());
+        LocalDateTime start = req.getStartTime();
+        LocalDateTime end = req.getEndTime();
 
         if (!end.isAfter(start)) {
             log.warn("Invalid appointment time range: endTime <= startTime");
             throw new DuplicateFoundException("endTime must be after startTime");
         }
 
-        if (!start.isAfter(OffsetDateTime.now())) {
+        if (!start.isAfter(LocalDateTime.now())) {
             log.warn("Appointment start time must be in the future: {}", start);
             throw new DuplicateFoundException("startTime must be in the future");
         }

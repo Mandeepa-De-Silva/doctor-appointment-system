@@ -7,16 +7,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
-@Entity
-@Table(name="appointment",
-        indexes = { @Index(name="idx_appt_doctor_start", columnList = "doctor_id,start_time"),
-                @Index(name="idx_appt_patient_start", columnList = "patient_id,start_time") })
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity(name = "appointment")
 public class AppointmentEntity {
 
     @Id
@@ -32,10 +30,10 @@ public class AppointmentEntity {
     private DoctorEntity doctor;
 
     @Column(name="start_time", nullable=false)
-    private OffsetDateTime startTime; // offset date time for timezone support with UTC
+    private LocalDateTime startTime;
 
     @Column(name="end_time", nullable=false)
-    private OffsetDateTime endTime;
+    private LocalDateTime endTime;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable=false)

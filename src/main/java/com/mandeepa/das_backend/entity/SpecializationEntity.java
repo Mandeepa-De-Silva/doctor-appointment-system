@@ -3,12 +3,11 @@ package com.mandeepa.das_backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Table(name = "specialization", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity(name = "specialization")
 public class SpecializationEntity {
 
     @Id
